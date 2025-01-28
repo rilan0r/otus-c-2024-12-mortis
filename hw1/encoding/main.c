@@ -618,21 +618,21 @@ int main(int argc, char *argv[]) {
 
     if (strcmp(argv[2], "CP-1251") == 0 ){
         int readchar;
-        while ((readchar = fgetc(input)) != EOF){
-            unsigned utf8code = cp1251_to_utf8[readchar];
-            unsigned char utf8bytes[2] = {0};
+        while ((readchar = fgetc(input)) != EOF){                       // Read fyle byte by byte until EOF
+            unsigned utf8code = cp1251_to_utf8[readchar];               // Find mapping of read byte for UTF8 hex code
+            unsigned char utf8bytes[2] = {0};                           // Create array to store single- or dual-byte object
             int length;
 
             if (utf8code <= 0x7F){
-                utf8bytes[0] = (unsigned char)utf8code;
+                utf8bytes[0] = (unsigned char)utf8code;                 // ASCII codes for first 127 symbols
                 length = 1;
             }
             else {
-                utf8bytes[0] = (unsigned char)((utf8code >> 8) & 0xFF);
-                utf8bytes[1] = (unsigned char)(utf8code & 0xFF);
+                utf8bytes[0] = (unsigned char)((utf8code >> 8) & 0xFF); // Get first byte from UTF8 hex code
+                utf8bytes[1] = (unsigned char)(utf8code & 0xFF);        // Get second byte from UTF8 hex code
                 length = 2;
             }
-            fwrite(&utf8bytes, 1, length, output);
+            fwrite(&utf8bytes, 1, length, output);                      // Write prepared symbol to file
         }
     }
     else if (strcmp(argv[2], "KOI8-R") == 0 ){
