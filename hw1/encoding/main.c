@@ -657,8 +657,6 @@ int main(int argc, char *argv[]) {
     else if (strcmp(argv[2], "ISO8859-5") == 0 ){
         int readchar;
         while ((readchar = fgetc(input)) != EOF){
-            printf("%02x\n", readchar);
-
             unsigned utf8code = iso8859_5_to_utf8[readchar];
             unsigned char utf8bytes[2] = {0};
             int length;
